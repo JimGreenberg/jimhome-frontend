@@ -1,25 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import YoutubeSearch from "./components/youtube-search/YoutubeSearch";
+import ButtonToggle from "./components/button-toggle/ButtonToggle";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ButtonToggle
+      titles={["Youtube URL", "Search Youtube", "Jim's Library"]}
+      componentChildren={[
+        <input placeholder="Youtube URL"/>,
+        <YoutubeSearch />,
+        <div style={{width: "50px", height: "50px", background: "red"}}></div>
+      ]}/>
   );
 }
 

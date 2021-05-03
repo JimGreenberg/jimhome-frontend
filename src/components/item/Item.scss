@@ -1,0 +1,44 @@
+li {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+span {
+  display: block;
+}
+
+.img-container {
+  position: relative;
+
+  img {
+    width: 168px;
+    height: 94px;
+  }
+}
+
+.duration {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(0,0,0,0.8);
+  border-radius: 2px;
+  padding: 3px 4px;
+  color: white;
+  bottom: 4px;
+  right: 4px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #030303;
+}
+
+.description {
+  font-size: 12px;
+  font-weight: 400;
+  color: #606060;
+}
+

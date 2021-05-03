@@ -1,0 +1,12 @@
+input {
+  font-size: 16px;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 5 * 104px;
+  width: 400px;
+  overflow: auto;
+}
