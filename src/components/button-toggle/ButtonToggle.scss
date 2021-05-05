@@ -1,37 +1,56 @@
+@import "../../palatte.scss";
+
+.button-toggle-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .button-container {
+  justify-content: center;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+
+  img {
+    height: 1.5em;
+    margin-right: 8px;
+  }
+
   button {
-    background: linear-gradient(0deg, rgba(242,238,233,1) 13%, rgba(255,252,247,1) 58%, rgba(250,241,234,1) 87%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: "Thunderstorm", "Roboto", Arial;
+    background: $teal;
     border: 0;
     padding: 8px 16px;
-    color: rgba(0,0,0,0.7);
+    // color: #1d3038;
+    // color: #352989;
+    color: $purple;
     font-weight: 500;
-    font-family: "Roboto", Arial;
-    border-top: 1px solid rgba(0,0,0,0.15);
-    border-bottom: 1px solid rgba(0,0,0,0.15);
-    border-right: 1px solid rgba(0,0,0,0.15);
-
-    $border-radius: 4px;
-
-    &:first-of-type {
-      border-left: 1px solid rgba(0,0,0,0.15);
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-    }
-
-    &:last-of-type {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
+    font-size: 24px;
+    // border-top: 2px solid $border-color;
+    // border-bottom: 6px solid $border-color;
+    // border-right: 4px solid $border-color;
+    box-shadow: 4px 6px $black;
+    outline: none;
+    transition: box-shadow 100ms cubic-bezier(0.09, 1.51, 0.61, 2.19);
 
     &.selected {
-      background: linear-gradient(2deg, rgba(242,238,233,1) 13%, rgba(255,252,247,1) 58%, rgba(250,241,234,1) 87%);
-      box-shadow: 0 -1px 5px 2px inset rgba(0, 0, 0, 0.2);
+      box-shadow: 6px 8px $black;
+      // background: #2b4854;
+      background: $yellow;
+      color: $pink;
+      // box-shadow: -4px -6px inset #fdfcf9;
+      // border-color: $teal;
+      // color: #fdfcf9;
     }
   }
 }
 
 $animation-duration: 500;
-$width: 400px;
+$width: 72vw;
 
 .content-container {
   width: $width;

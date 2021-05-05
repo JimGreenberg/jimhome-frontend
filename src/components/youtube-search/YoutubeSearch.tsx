@@ -32,7 +32,7 @@ export default class YoutubeSearch extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <input id="search" placeholder="Search YouTube"/>
         <ul id="search-results">
           {this.state.items.map(item => (
@@ -45,7 +45,7 @@ export default class YoutubeSearch extends React.Component {
             />
           ))}
         </ul>
-      </div>
+      </React.Fragment>
     );
   }
 }

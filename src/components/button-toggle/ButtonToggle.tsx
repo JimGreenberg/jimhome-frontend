@@ -4,7 +4,7 @@ import "./ButtonToggle.scss";
 
 interface ButtonToggleProps {
   componentChildren: Array<ReactElement>;
-  titles: Array<string>
+  titles: Array<ReactElement | string>;
 }
 
 interface ButtonToggleState {
@@ -48,16 +48,20 @@ class ButtonToggle extends React.Component<ButtonToggleProps, ButtonToggleState>
       shownItems = [this.state.selected]
     }
     return (
-      <div>
+      <div className="button-toggle-root">
         <div className="button-container">
-          {this.props.titles.map((title, i) => (
-            <button className={`${this.state.selected === i ? "selected" : ""}`} onClick={() => this.onClick(i)} key={title}>{title}</button>
-          ))}
+          {
+          this.props.titles.map((title, i) => (
+            <button className={`${this.state.selected === i ? "selected" : ""}`} onClick={() => this.onClick(i)} key={i}>{title}</button>
+          ))
+          }
         </div>
         <div className={`content-container ${this.state.showPrevious ? this.state.direction : ""}`}>
-          {shownItems.map(key => {
+          {
+          shownItems.map(key => {
             return <div className="content-wrapper" key={key}>{this.props.componentChildren[key]}</div>
-          })}
+          })
+          }
         </div>
       </div>
     );
