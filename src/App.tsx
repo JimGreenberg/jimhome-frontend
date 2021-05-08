@@ -5,7 +5,7 @@ import ButtonToggle from "./components/button-toggle/ButtonToggle";
 import youtube from "./assets/old-youtube.png";
 import music from "./assets/old-itunes.png";
 import pattern from "./assets/pattern.jpg";
-import { MpdClient } from "./api/mpd-ws-client";
+import { MpdClient } from "./api/mpd-client";
 
 function App() {
   const mpd = new MpdClient();
