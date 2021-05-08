@@ -1,8 +1,10 @@
 export const HOSTNAME = "jimhome";
 
 export enum Port {
+  /** this port exists but it's never going to be used by this application */
   MPD = 6600,
-  YOUTUBE_URI = 6601
+  MPD_PROXY = 6601,
+  YOUTUBE_URI = 6602
 }
 
 export const YOUTUBE_API_KEY = "AIzaSyAJSOvcuIUbraLsCpj1bHvJzSXxufjC3nY";

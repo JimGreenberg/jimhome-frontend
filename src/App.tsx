@@ -5,35 +5,39 @@ import ButtonToggle from "./components/button-toggle/ButtonToggle";
 import youtube from "./assets/old-youtube.png";
 import music from "./assets/old-itunes.png";
 import pattern from "./assets/pattern.jpg";
-import React from "react";
+import { MpdClient } from "./api/mpd-ws-client";
 
 function App() {
+  const mpd = new MpdClient();
+  function connect() {
+    // todo
+  }
   return (
     <ButtonToggle
       titles={[
-        <React.Fragment>
-          <img src={youtube} />
+        <>
+          <img src={youtube} alt="Youtube URL"/>
           Youtube URL
-        </React.Fragment>,
-        <React.Fragment>
-          <img src={youtube} />
+        </>,
+        <>
+          <img src={youtube} alt="Search Youtube"/>
           Search Youtube
-        </React.Fragment>,
-        <React.Fragment>
-          <img src={music} />
+        </>,
+        <>
+          <img src={music} alt="Jim's Library"/>
           Jim's Library
-        </React.Fragment>,
+        </>,
       ]}
       componentChildren={[
-        <React.Fragment>
+        <>
           <input placeholder="Youtube URL" />
-          <img className="pattern" src={pattern}/>
+          <img className="pattern" src={pattern} alt=""/>
           <div className="other-triangle"></div>
-        </React.Fragment>,
+        </>,
         <YoutubeSearch />,
-        <React.Fragment>
-          <div className="teal">teal</div> <div className="black">black</div> <div className="purple">purple</div> <div className="dteal">dteal</div> <div className="yellow">yellow</div> <div className="pink">pink</div> <div className="white">white</div>
-        </React.Fragment>,
+        <>
+          <button onClick={connect}>POST</button>
+        </>,
       ]}
     />
   );

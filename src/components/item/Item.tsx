@@ -9,15 +9,11 @@ interface ItemProps {
 }
 
 class Item extends React.Component<ItemProps> {
-  constructor(props: ItemProps) {
-    super(props);
-  }
-
   render() {
     return (
       <li>
         <div className="img-container">
-          <img src={this.props.imgUrl}/>
+          <img src={this.props.imgUrl} alt=""/>
           <span className="duration">{this.props.duration}</span>
         </div>
         <div className="info-container">
