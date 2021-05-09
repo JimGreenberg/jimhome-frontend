@@ -8,6 +8,8 @@
     text-decoration: underline;
     background: none;
     border: none;
+    cursor: pointer;
+
     &:last-of-type {
       pointer-events: none;
     }

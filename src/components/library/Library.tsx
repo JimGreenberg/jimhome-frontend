@@ -6,32 +6,58 @@ import "./Library.scss";
 
 const fake: Record<string, Record<string, string[]>> = {
   artist1: {
-    ablum1: ["Despair in the departure lounge", "song2", "song3", "song4", "song5"],
-    ablum2: ["song1", "song2", "song3", "song4", "song5"],
-    ablum3: ["song1", "song2", "song3", "song4", "song5"],
-    ablum4: ["song1", "song2", "song3", "song4", "song5"],
-    ablum5: ["song1", "song2", "song3", "song4", "song5"],
+    album1: [
+      "Despair in the departure lounge",
+      "song2",
+      "song3",
+      "song4",
+      "sosrsng5",
+      "sodng1",
+      "sondg2",
+      "songd3",
+      "song4s",
+      "songes5",
+      "songafse1",
+      "songs2",
+      "soesfng3",
+      "sonseg4",
+      "soneefsg5",
+      "sonsefg1",
+      "songsef2",
+      "sseong3",
+      "songe4",
+      "soneg5",
+      "songe1",
+      "soneg2",
+      "sonfeg3",
+      "sonfeg4",
+      "sonfeg5",
+    ],
+    album2: ["song1", "song2", "song3", "song4", "song5"],
+    album3: ["song1", "song2", "song3", "song4", "song5"],
+    album4: ["song1", "song2", "song3", "song4", "song5"],
+    album5: ["song1", "song2", "song3", "song4", "song5"],
   },
   artist2: {
-    ablum1: ["song1", "song2", "song3", "song4", "song5"],
-    ablum2: ["song1", "song2", "song3", "song4", "song5"],
-    ablum3: ["song1", "song2", "song3", "song4", "song5"],
-    ablum4: ["song1", "song2", "song3", "song4", "song5"],
-    ablum5: ["song1", "song2", "song3", "song4", "song5"],
+    album1: ["song1", "song2", "song3", "song4", "song5"],
+    album2: ["song1", "song2", "song3", "song4", "song5"],
+    album3: ["song1", "song2", "song3", "song4", "song5"],
+    album4: ["song1", "song2", "song3", "song4", "song5"],
+    album5: ["song1", "song2", "song3", "song4", "song5"],
   },
   artist3: {
-    ablum1: ["song1", "song2", "song3", "song4", "song5"],
-    ablum2: ["song1", "song2", "song3", "song4", "song5"],
-    ablum3: ["song1", "song2", "song3", "song4", "song5"],
-    ablum4: ["song1", "song2", "song3", "song4", "song5"],
-    ablum5: ["song1", "song2", "song3", "song4", "song5"],
+    album1: ["song1", "song2", "song3", "song4", "song5"],
+    album2: ["song1", "song2", "song3", "song4", "song5"],
+    album3: ["song1", "song2", "song3", "song4", "song5"],
+    album4: ["song1", "song2", "song3", "song4", "song5"],
+    album5: ["song1", "song2", "song3", "song4", "song5"],
   },
   artist4: {
-    ablum1: ["song1", "song2", "song3", "song4", "song5"],
-    ablum2: ["song1", "song2", "song3", "song4", "song5"],
-    ablum3: ["song1", "song2", "song3", "song4", "song5"],
-    ablum4: ["song1", "song2", "song3", "song4", "song5"],
-    ablum5: ["song1", "song2", "song3", "song4", "song5"],
+    album1: ["song1", "song2", "song3", "song4", "song5"],
+    album2: ["song1", "song2", "song3", "song4", "song5"],
+    album3: ["song1", "song2", "song3", "song4", "song5"],
+    album4: ["song1", "song2", "song3", "song4", "song5"],
+    album5: ["song1", "song2", "song3", "song4", "song5"],
   },
 };
 
@@ -50,30 +76,8 @@ export default function Library() {
 
   return (
     <>
-    <Breadcrumbs labels={["All", artist, album].filter((label): label is string => !!label)} onLabelClick={onLabelClick}/>
-      {/* <div className="breadcrumbs">
-        {artist ? (
-          <a
-            onClick={() => {
-              setAlbum(undefined);
-            }}
-          >
-            {artist}
-          </a>
-        ) : undefined}
-        {album ? (
-          <>
-            <span className="arrow">&gt;</span>
-            <a
-              onClick={() => {
-                setAlbum(undefined);
-              }}
-            >
-              {album}
-            </a>
-          </>
-        ) : undefined}
-      </div> */}
+      <Breadcrumbs labels={["All", artist, album].filter((label): label is string => !!label)} onLabelClick={onLabelClick}/>
+      <h1>{album ? album : artist ? artist : "Artists"}</h1>
       {!artist && !album ? (
         <List>
           {Object.keys(fake).map((_artist) => (
