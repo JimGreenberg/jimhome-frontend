@@ -16,6 +16,42 @@
   src: url('./assets/Thunderstorm.otf') format('otf');
 }
 
+@font-face {
+  font-family: 'times-16';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./assets/TIMES.TTF-16-Regular-fa46b8e0f87ca255fb212abd7b50554b2c9335b09da60399ec65001cea25fa8b.woff') format('woff');
+}
+@font-face {
+  font-family: 'times-16-bold';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/TIMESBD.TTF-16-Bold-566bcacdc98e1ed8723a224dc8dbdcb7f8c59fb167d8412e1c2c1f25581af023.woff') format('woff');
+}
+@font-face {
+  font-family: 'times-24-bold';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/TIMESBD.TTF-24-Bold-e2ccd12c29de9f46f55f6b22d8e8c9f22147450fcc3ced5089199e105b7b2acf.woff') format('woff');
+}
+@font-face {
+  font-family: 'times-32-bold';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/TIMESBD.TTF-32-Bold-2164905c85a319d9746be1ddc807c7bc45f43f71508e5e2e37c937ef16d62efd.woff') format('woff');
+}
+@font-face {
+  font-family: 'times-16-italic';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./assets/TIMESI.TTF-16-Italic-baf8283ca63eb32ae1d1f546959c817b50001901fc7d1ff355f5143e35dc7ea1.woff') format('woff');
+}
+
 /* Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

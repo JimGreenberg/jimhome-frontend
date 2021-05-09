@@ -5,41 +5,40 @@ const debug = false;
 type Command = "status";
 
 export class MpdClient {
-  static resetTimeout = 5000;
-  ws!: WebSocket;
-  promiseChain!: Promise<any>;
-  count = 0;
-  resetTimeout?: ReturnType<typeof setTimeout>;
+  static _resetTimeout = 5000;
+  static resetTimeout?: ReturnType<typeof setTimeout>;
+  static ws?: WebSocket;
+  static promiseChain: Promise<any>;
 
-  constructor() {
-    this.reset();
+  private constructor() {}
+
+  static connect () {
+    MpdClient.ws && MpdClient.ws.close();
+    MpdClient.ws = new WebSocket(`ws://${HOSTNAME}:${Port.MPD_PROXY}/`); // NOT wss, we can't have nice things
+    debug &&
+      MpdClient.ws.addEventListener("message", ({ data }) => console.error(data));
+    MpdClient.resetPromiseChain()
   }
 
-  send(command: Command): Promise<string | void> {
-    this.resetTimeout && clearTimeout(this.resetTimeout)
-    this.resetTimeout = setTimeout(this.resetPromiseChain.bind(this), MpdClient.resetTimeout);
-    this.promiseChain = this.promiseChain.then(() => {
-      return new Promise((resolve) => {
-        this.ws.send(command);
+  static send(command: Command): Promise<string | void> {
+    MpdClient.resetTimeout && clearTimeout(MpdClient.resetTimeout)
+    MpdClient.resetTimeout = setTimeout(MpdClient.resetPromiseChain.bind(MpdClient), MpdClient._resetTimeout);
+    MpdClient.promiseChain = MpdClient.promiseChain.then(() => {
+      return new Promise((resolve, reject) => {
+        MpdClient.ws?.send(command);
         const handler = ({ data }: MessageEvent) => {
           resolve(data);
-          this.ws.removeEventListener("message", handler);
+          MpdClient.ws?.removeEventListener("message", handler);
         };
-        this.ws.addEventListener("message", handler);
+        MpdClient.ws?.addEventListener("message", handler);
       });
     });
-    return this.promiseChain;
+    return MpdClient.promiseChain;
   }
 
-  private resetPromiseChain() {
-    this.resetTimeout = undefined;
-    this.promiseChain = Promise.resolve().catch(this.reset.bind(this));
+  private static resetPromiseChain() {
+    MpdClient.resetTimeout = undefined;
+    MpdClient.promiseChain = Promise.resolve().catch(MpdClient.connect.bind(MpdClient));
   }
 
-  private reset() {
-    this.ws = new WebSocket(`ws://${HOSTNAME}:${Port.MPD_PROXY}/`); // NOT wss, we can't have nice things
-    debug &&
-      this.ws.addEventListener("message", ({ data }) => console.error(data));
-    this.resetPromiseChain()
-  }
 }

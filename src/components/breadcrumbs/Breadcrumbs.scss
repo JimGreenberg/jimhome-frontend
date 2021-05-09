@@ -1,0 +1,15 @@
+.breadcrumbs {
+  display: flex;
+  font-family: times-16;
+  padding: 8px 8px 0;
+
+  button {
+    font-family: inherit;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    &:last-of-type {
+      pointer-events: none;
+    }
+  }
+}

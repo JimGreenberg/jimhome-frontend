@@ -1,0 +1,18 @@
+.list {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    text-align: left;
+    background: rgba(255,255,255,0.9);
+    font-family: Roboto;
+    font-size: 32px;
+    padding: 8px 16px;
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    font-family: times-32-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

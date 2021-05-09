@@ -2,16 +2,14 @@ import "./App.scss";
 
 import YoutubeSearch from "./components/youtube-search/YoutubeSearch";
 import ButtonToggle from "./components/button-toggle/ButtonToggle";
+import Library from "./components/library/Library";
 import youtube from "./assets/old-youtube.png";
 import music from "./assets/old-itunes.png";
 import pattern from "./assets/pattern.jpg";
 import { MpdClient } from "./api/mpd-client";
 
 function App() {
-  const mpd = new MpdClient();
-  function connect() {
-    // todo
-  }
+  // MpdClient.connect();
   return (
     <ButtonToggle
       titles={[
@@ -35,9 +33,7 @@ function App() {
           <div className="other-triangle"></div>
         </>,
         <YoutubeSearch />,
-        <>
-          <button onClick={connect}>POST</button>
-        </>,
+        <Library />,
       ]}
     />
   );
