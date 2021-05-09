@@ -19,7 +19,7 @@ class ButtonToggle extends React.Component<ButtonToggleProps, ButtonToggleState>
     selected: 0,
     previousSelected: 0,
     showPrevious: false,
-    direction: "forward"
+    direction: "reverse"
   }
   currentTimeout?: ReturnType<typeof setTimeout>;
 
@@ -30,7 +30,7 @@ class ButtonToggle extends React.Component<ButtonToggleProps, ButtonToggleState>
         selected,
         previousSelected: this.state.selected,
         showPrevious: true,
-        direction: selected > this.state.selected ? "forward" : "reverse",
+        direction: selected < this.state.selected ? "forward" : "reverse",
       });
       this.currentTimeout = setTimeout(() => this.setState({ showPrevious: false }), 500);
     }
@@ -39,7 +39,7 @@ class ButtonToggle extends React.Component<ButtonToggleProps, ButtonToggleState>
   render() {
     let shownItems;
     if (this.state.showPrevious) {
-      if (this.state.selected > this.state.previousSelected) {
+      if (this.state.selected < this.state.previousSelected) {
         shownItems = [this.state.selected, this.state.previousSelected];
       } else {
         shownItems = [this.state.previousSelected, this.state.selected];
