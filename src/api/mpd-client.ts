@@ -2,7 +2,7 @@ import { HOSTNAME, Port } from "./constants";
 
 const debug = false;
 
-type Command = "status";
+type Command = "status" | string;
 
 export class MpdClient {
   static _resetTimeout = 5000;

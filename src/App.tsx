@@ -9,7 +9,7 @@ import pattern from "./assets/pattern.jpg";
 import { MpdClient } from "./api/mpd-client";
 
 function App() {
-  // MpdClient.connect();
+  MpdClient.connect();
   return (
     <ButtonToggle
       titles={[
