@@ -1,14 +1,14 @@
 import { HOSTNAME, Port } from "./constants";
-import { PlaylistInfo } from "./playlist-info";
+import { PlaylistInfo, Status } from "./mpd";
 
-type KeysWithValsOfType<T, V> = keyof {
+type KeysInOfType<T, V> = keyof {
   [P in keyof T as T[P] extends V ? P : never]: P;
 };
 
 const debug = false;
 
 export class MpdClient {
-  static _resetTimeout = 5000;
+  static _resetTimeoutLength = 5000;
   static resetTimeout?: ReturnType<typeof setTimeout>;
   static ws?: WebSocket;
   static promiseChain: Promise<any>;
@@ -18,9 +18,10 @@ export class MpdClient {
   static connect() {
     MpdClient.ws && MpdClient.ws.close();
     MpdClient.ws = new WebSocket(`ws://${HOSTNAME}:${Port.MPD_PROXY}/`); // NOT wss, we can't have nice things
-    debug &&
-      MpdClient.ws.addEventListener("message", ({ data }) => console.error(data));
-    MpdClient.resetPromiseChain()
+    MpdClient.promiseChain = new Promise<void>(resolve => MpdClient.ws!.addEventListener("open", () => {
+      setTimeout(() => resolve(), 100);
+    }));
+    debug && MpdClient.ws.addEventListener("message", ({ data }) => console.error(data));
   }
 
   static listArtists(): Promise<string[]> {
@@ -89,9 +90,40 @@ export class MpdClient {
     return MpdClient.send("clear").then();
   }
 
+  static status(): Promise<Status> {
+    return MpdClient.send("status").then(response => {
+      const status = {} as Status;
+      response.split("\n").forEach(line => {
+        // eslint-disable-next-line  @typescript-eslint/no-unused-vars
+        const [_, key, value] = (/(^[\w-]*):\s(.*)\n?$/.exec(line) as unknown) as [never, keyof Status, string, ...never[]];
+        const isBooleanKey = ["repeat", "random", "single", "consume"].includes(key);
+        const isStringKey = ["time", "audio"].includes(key);
+        if (
+          ((
+            _key: string
+          ): _key is KeysInOfType<Required<Status>, boolean> =>
+            isBooleanKey)(key)
+        ) {
+          status[key] = !!value;
+        } else if (
+          ((
+            _key: string
+          ): _key is KeysInOfType<Required<Status>, string> =>
+            isStringKey)(key)
+        ) {
+          status[key] = value as "play"; // just make it stop complaining
+        } else {
+          status[key] = parseInt(value);
+        }
+      });
+      return status;
+    });
+  }
+
   static getQueue(): Promise<PlaylistInfo[]> {
     return MpdClient.send("playlistinfo").then(response => {
       const arr = new Array<PlaylistInfo>();
+      if (!response) return arr;
       let i = 0;
       response.split("\n").forEach(line => {
         // eslint-disable-next-line  @typescript-eslint/no-unused-vars
@@ -107,12 +139,7 @@ export class MpdClient {
           "Id",
           "Prio",
         ].includes(key);
-        if (
-          ((
-            _key: string
-          ): _key is KeysWithValsOfType<Required<PlaylistInfo>, number> =>
-            isNumberKey)(key)
-        ) {
+        if (((_key: string): _key is KeysInOfType<Required<PlaylistInfo>, number> => isNumberKey)(key)) {
           arr[i][key] = parseInt(value);
         } else {
           arr[i][key] = value;
@@ -125,13 +152,13 @@ export class MpdClient {
 
   static send(command: string): Promise<string> {
     MpdClient.resetTimeout && clearTimeout(MpdClient.resetTimeout)
-    MpdClient.resetTimeout = setTimeout(MpdClient.resetPromiseChain.bind(MpdClient), MpdClient._resetTimeout);
+    MpdClient.resetTimeout = setTimeout(MpdClient.resetPromiseChain.bind(MpdClient), MpdClient._resetTimeoutLength);
     MpdClient.promiseChain = MpdClient.promiseChain.then(() => {
       return new Promise(resolve => {
         debug && console.error(command);
         MpdClient.ws?.send(command);
         const handler = ({ data }: MessageEvent) => {
-          resolve(data.replace(/\nOK\n$/m, ""));
+          resolve(data.replace(/\n?OK\n$/m, ""));
           MpdClient.ws?.removeEventListener("message", handler);
         };
         MpdClient.ws?.addEventListener("message", handler);
@@ -141,13 +168,17 @@ export class MpdClient {
   }
 
   private static buildQuery(tag: string, compare: string, value: string, group?: string): string {
-    const query = `"(${tag} ${compare} '${value.replace(/(["])/g, "\\"+"$1")}')"`; // eslint-disable-line no-useless-escape
+    const query = `"(${tag} ${compare} '${value.replace(/(["])/g, "\\"+"$1")}')"`; // eslint-disable-line no-useless-escape, no-useless-concat
     return group ? query + " group " + group : query;
   }
 
   private static resetPromiseChain() {
     MpdClient.resetTimeout = undefined;
-    MpdClient.promiseChain = Promise.resolve().catch(MpdClient.connect.bind(MpdClient));
+    if (MpdClient.ws?.readyState === WebSocket.OPEN) {
+      MpdClient.promiseChain = Promise.resolve().catch(MpdClient.connect.bind(MpdClient));
+    } else {
+      MpdClient.connect();
+    }
   }
 
 }

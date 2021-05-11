@@ -1,5 +1,66 @@
+@import "../../palatte.scss";
+
 h1 {
   font-family: times-32-bold;
   font-size: 32px;
   padding: 0 16px 8px;
+  display: inline-block;
+}
+
+button.shuffle {
+  display: inline-block;
+  position: relative;
+  justify-content: space-around;
+  align-items: center;
+  font-family: "Thunderstorm", "Roboto", Arial;
+  background: $teal;
+  border: 0;
+  padding: 2px 16px;
+  cursor: pointer;
+  // color: #1d3038;
+  // color: #352989;
+  color: $purple;
+  font-weight: 500;
+  font-size: 24px;
+  // border-top: 2px solid $border-color;
+  // border-bottom: 6px solid $border-color;
+  // border-right: 4px solid $border-color;
+  box-shadow: 4px 6px $black;
+  outline: none;
+  // transition: background, color, 100ms ease-in;
+
+  &:hover {
+    // background: #2b4854;
+    background: $yellow;
+    color: $pink;
+    // box-shadow: -4px -6px inset #fdfcf9;
+    // border-color: $teal;
+    // color: #fdfcf9;
+  }
+  &:active {
+    // box-shadow: 6px 8px $black;
+    top: 2px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  height: 46px * 10;
+  overflow-y: scroll;
+
+  button {
+    text-align: left;
+    background: rgba(255,255,255,0.9);
+    font-size: 24px;
+    padding: 8px 16px;
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    font-family: times-32-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
 }

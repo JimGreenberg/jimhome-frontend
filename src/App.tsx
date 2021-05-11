@@ -3,6 +3,7 @@ import "./App.scss";
 import YoutubeSearch from "./components/youtube-search/YoutubeSearch";
 import ButtonToggle from "./components/button-toggle/ButtonToggle";
 import Library from "./components/library/Library";
+import Shelf from "./components/shelf/Shelf";
 import youtube from "./assets/old-youtube.png";
 import music from "./assets/old-itunes.png";
 import pattern from "./assets/pattern.jpg";
@@ -10,7 +11,7 @@ import { MpdClient } from "./api/mpd-client";
 
 function App() {
   MpdClient.connect();
-  return (
+  return (<>
     <ButtonToggle
       titles={[
         <>
@@ -36,7 +37,8 @@ function App() {
         <Library />,
       ]}
     />
-  );
+    <Shelf/>
+  </>);
 }
 
 export default App;
