@@ -97,7 +97,7 @@ export class MpdClient {
         // eslint-disable-next-line  @typescript-eslint/no-unused-vars
         const [_, key, value] = (/(^[\w-]*):\s(.*)\n?$/.exec(line) as unknown) as [never, keyof Status, string, ...never[]];
         const isBooleanKey = ["repeat", "random", "single", "consume"].includes(key);
-        const isStringKey = ["time", "audio"].includes(key);
+        const isStringKey = ["time", "audio", "state"].includes(key);
         if (
           ((
             _key: string

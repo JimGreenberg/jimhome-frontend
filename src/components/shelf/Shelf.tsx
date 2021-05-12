@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "./Shelf.scss";
 import { MpdClient } from "../../api/mpd-client";
+import tvframe from "../../assets/tvframe.png";
 
 export default function Shelf() {
   const [title, setTitle] = useState("");
@@ -9,6 +10,7 @@ export default function Shelf() {
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [queueNum, setQueueNum] = useState(0);
+  const [playState, setPlayState] = useState("stop");
   const interval = useRef(0 as unknown as ReturnType<typeof setInterval>);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function Shelf() {
       }
       setTime(status.elapsed || 0);
       setDuration(status.duration || 0);
+      setPlayState(status.state);
     }), 1000);
   });
 
@@ -48,16 +51,16 @@ export default function Shelf() {
   return (
     <>
       <div className="shelf-root">
-        <span className="now-playing">Now Playing</span>
-        <img />
-        <span className="song-title">{title}</span>
-        <span className="artist">{artist}</span>
-        <span className="album">{album}</span>
+        <span className="now-playing">{playState.toLocaleUpperCase()} {playState === "play" ? "▶︎" : playState === "pause" ? "" : "■"}</span>
         <span className="time">
           <span>{secondsToTimeString(time)}</span>
           <span>&nbsp;/&nbsp;</span>
           <span>{secondsToTimeString(duration)}</span>
         </span>
+        <img/>
+        <span className="song-title">{title}</span>
+        <span className="artist">{artist}</span>
+        <span className="album">{album}</span>
         <span className="queue">Queue</span>
         <span className="queue-num">{queueNum}</span>
       </div>

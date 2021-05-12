@@ -15,7 +15,6 @@
   font-display: swap;
   src: url('./assets/Thunderstorm.otf') format('otf');
 }
-
 @font-face {
   font-family: 'times-16';
   font-style: normal;
@@ -50,6 +49,13 @@
   font-weight: 300;
   font-display: swap;
   src: url('./assets/TIMESI.TTF-16-Italic-baf8283ca63eb32ae1d1f546959c817b50001901fc7d1ff355f5143e35dc7ea1.woff') format('woff');
+}
+@font-face {
+  font-family: 'VCR';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./assets/VCR_OSD_MONO_1.ttf');
 }
 
 /* Reset */

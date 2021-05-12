@@ -5,6 +5,7 @@ import ButtonToggle from "./components/button-toggle/ButtonToggle";
 import Library from "./components/library/Library";
 import Shelf from "./components/shelf/Shelf";
 import youtube from "./assets/old-youtube.png";
+import tvframe from "./assets/tvframe.png";
 import music from "./assets/old-itunes.png";
 import pattern from "./assets/pattern.jpg";
 import { MpdClient } from "./api/mpd-client";
