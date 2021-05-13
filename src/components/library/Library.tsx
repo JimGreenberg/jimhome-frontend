@@ -56,15 +56,11 @@ export default function Library() {
   }
 
   function shuffleArtistSongs(artist: string) {
-    MpdClient.addArtist(artist); // then do something
-    MpdClient.shuffle(true);
-    MpdClient.play();
+    MpdClient.addArtist(artist).then(added => MpdClient.shuffle(added[0].Pos || 0));
   }
 
   function shuffleAlbumSongs(album: string) {
-    MpdClient.addAlbum(album); // then do something
-    MpdClient.shuffle(true);
-    MpdClient.play();
+    MpdClient.addAlbum(album).then(added => MpdClient.shuffle(added[0].Pos || 0));
   }
 
   return (

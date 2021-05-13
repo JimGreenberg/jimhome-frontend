@@ -54,16 +54,34 @@ export class MpdClient {
     });
   }
 
-  static addSong(title: string): Promise<void> {
-    return MpdClient.send(`findadd ${MpdClient.buildQuery("title", "==", title)}`).then();
+  static addSong(title: string): Promise<PlaylistInfo[]> {
+    let prev;
+    return MpdClient.getQueue().then(queue => {
+      prev = queue;
+      return MpdClient.send(`findadd ${MpdClient.buildQuery("title", "==", title)}`);
+    })
+    .then(MpdClient.getQueue)
+    .then(queue => queue.slice(prev.length));
   }
 
-  static addAlbum(album: string): Promise<void> {
-    return MpdClient.send(`findadd ${MpdClient.buildQuery("album", "==", album)}`).then();
+  static addAlbum(album: string): Promise<PlaylistInfo[]> {
+    let prev;
+    return MpdClient.getQueue().then(queue => {
+      prev = queue;
+      return MpdClient.send(`findadd ${MpdClient.buildQuery("album", "==", album)}`);
+    })
+    .then(MpdClient.getQueue)
+    .then(queue => queue.slice(prev.length));
   }
 
-  static addArtist(artist: string): Promise<void> {
-    return MpdClient.send(`findadd ${MpdClient.buildQuery("artist", "==", artist)}`).then();
+  static addArtist(artist: string): Promise<PlaylistInfo[]> {
+    let prev;
+    return MpdClient.getQueue().then(queue => {
+      prev = queue;
+      return MpdClient.send(`findadd ${MpdClient.buildQuery("artist", "==", artist)}`);
+    })
+    .then(MpdClient.getQueue)
+    .then(queue => queue.slice(prev.length));
   }
 
   static play(): Promise<void> {
@@ -78,8 +96,8 @@ export class MpdClient {
     return MpdClient.send("next").then();
   }
 
-  static shuffle(doShuffle: boolean): Promise<void> {
-    return MpdClient.send(`random ${doShuffle ? 1 : 0}`).then();
+  static shuffle(start: number, end = 99): Promise<void> {
+    return MpdClient.send(`shuffle ${start}:${end}`).then();
   }
 
   static setVol(volume: number): Promise<void> {
