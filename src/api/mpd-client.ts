@@ -92,8 +92,16 @@ export class MpdClient {
     return MpdClient.send("pause").then();
   }
 
+  static stop(): Promise<void> {
+    return MpdClient.send("stop").then();
+  }
+
   static next(): Promise<void> {
     return MpdClient.send("next").then();
+  }
+
+  static previous(): Promise<void> {
+    return MpdClient.send("previous").then();
   }
 
   static shuffle(start: number, end = 99): Promise<void> {
@@ -138,14 +146,18 @@ export class MpdClient {
     });
   }
 
-  static getQueue(): Promise<PlaylistInfo[]> {
-    return MpdClient.send("playlistinfo").then(response => {
+  /** kinda private */
+  static playlistInfo(start: number, end?: number): Promise<PlaylistInfo[]> {
+    return MpdClient.send(`playlistinfo ${start}:${end}`).then(response => {
       const arr = new Array<PlaylistInfo>();
       if (!response) return arr;
       let i = 0;
       response.split("\n").forEach(line => {
-        // eslint-disable-next-line  @typescript-eslint/no-unused-vars
-        const [_, key, value] = (/(^[\w-]*):\s(.*)\n?$/.exec(line) as unknown) as [never, keyof PlaylistInfo, string, ...never[]];
+        const execResult = (/(^[\w-]*):\s(.*)\n?$/.exec(line) as unknown);
+        if (!execResult) {
+          throw line;
+        }
+        const [_, key, value] = execResult as [never, keyof PlaylistInfo, string, ...never[]];
         if (!arr[i]) arr[i] = {} as PlaylistInfo; // init the object
         if (!!arr[i][key]) i++; // defensive coding, if we're trying to overwrite something it means we didn't successfully increment
         const isNumberKey = [
@@ -166,6 +178,25 @@ export class MpdClient {
       });
       return arr;
     });
+  }
+
+  static getQueue(): Promise<PlaylistInfo[]> {
+    const CHUNK_SIZE = 50;
+    function playlistInfoRecursive(dataPointer: number): Promise<PlaylistInfo[]> {
+      return MpdClient.playlistInfo(dataPointer, dataPointer + CHUNK_SIZE).then(arr => {
+        if (arr.length < CHUNK_SIZE) {
+          return Promise.resolve(arr);
+        } else {
+          return playlistInfoRecursive(dataPointer + CHUNK_SIZE).then(newArr => arr.concat(newArr));
+        }
+      });
+    }
+
+    return playlistInfoRecursive(0);
+  }
+
+  static getCurrentSong(): Promise<[PlaylistInfo]> {
+    return MpdClient.playlistInfo(0) as Promise<[PlaylistInfo]>;
   }
 
   static send(command: string): Promise<string> {

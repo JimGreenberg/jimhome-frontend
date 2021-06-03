@@ -46,6 +46,12 @@
       // box-shadow: -4px -6px inset #fdfcf9;
       // border-color: $teal;
       // color: #fdfcf9;
+
+      span {
+        animation: bounce 1s cubic-bezier(0, 1.29, 0.88, 1.4) forwards infinite;
+        position: relative;
+        top: 8px;
+      }
     }
   }
 }
@@ -88,5 +94,14 @@ $width: 90vw;
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  from {
+    filter: blur(2px);
+  }
+  to {
+    transform: translateY(-10px);
   }
 }

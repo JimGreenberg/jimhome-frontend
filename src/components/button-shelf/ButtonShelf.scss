@@ -1,0 +1,29 @@
+.button-shelf {
+  height: 90px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: url("../../assets/remote-playback-buttons.jpg") no-repeat center, url("../../assets/remote-overflow.jpg") repeat;
+  background-size: 420px 90px, auto;
+
+  & > div {
+    display: flex;
+    margin-top: 3px;
+  }
+
+  button {
+    margin: 0 10px;
+    width: 80px;
+    height: 55px;
+    border-radius: 28px;
+    background: transparent;
+    border: none;
+  }
+
+  button:active {
+    background: rgba(0,0,0,0.2);
+  }
+}

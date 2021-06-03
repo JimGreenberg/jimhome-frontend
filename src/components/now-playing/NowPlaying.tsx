@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import "./Shelf.scss";
+import "./NowPlaying.scss";
+import tvframe from "../../assets/tvframe.png"
 import { MpdClient } from "../../api/mpd-client";
 
-export default function Shelf() {
+export default function List() {
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [album, setAlbum] = useState("");
@@ -12,18 +13,19 @@ export default function Shelf() {
   const [playState, setPlayState] = useState("stop");
   const interval = useRef(0 as unknown as ReturnType<typeof setInterval>);
 
+
   useEffect(() => {
     getQueue();
     interval.current && clearInterval(interval.current);
     interval.current = setInterval(() => MpdClient.status().then(status => {
-      // if (time > status.elapsed) {
-      //   getQueue();
-      // }
+      getQueue();
       setTime(status.elapsed || 0);
       setDuration(status.duration || 0);
       setPlayState(status.state);
     }), 1000);
-  });
+
+    return () => clearInterval(interval.current); // cleanup
+  }, []);
 
   function getQueue() {
      MpdClient.getQueue().then((queue) => {
@@ -49,19 +51,24 @@ export default function Shelf() {
 
   return (
     <>
-      <div className="shelf-root">
-        <span className="now-playing">{playState.toLocaleUpperCase()} {playState === "play" ? "▶︎" : playState === "pause" ? "" : "■"}</span>
+      <img className="tvframe" src={tvframe} alt=""/>
+      <div className="fake-screen">
+        <span className="status">{playState.toLocaleUpperCase()} {playState === "play" ? "▶︎" : playState === "pause" ? "" : "■"}</span>
         <span className="time">
           <span>{secondsToTimeString(time)}</span>
           <span>&nbsp;/&nbsp;</span>
           <span>{secondsToTimeString(duration)}</span>
         </span>
-        <img/>
-        <span className="song-title">{title}</span>
-        <span className="artist">{artist}</span>
-        <span className="album">{album}</span>
-        <span className="queue">Queue</span>
-        <span className="queue-num">{queueNum}</span>
+        <div className="main">
+          <img alt=""/>
+          <span className="song-title">{title}</span>
+          <span className="artist">{artist}</span>
+          <span className="album">{album}</span>
+        </div>
+        <div className="queue-container">
+          <span className="queue">Queue</span>
+          <span className="queue-num">{queueNum}</span>
+        </div>
       </div>
     </>
   );
