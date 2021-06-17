@@ -28,13 +28,19 @@ export default function List() {
   }, []);
 
   function getQueue() {
-     MpdClient.getQueue().then((queue) => {
-       setQueueNum(queue.length);
-       if (!queue.length) return;
-       setTitle(queue[0].Title || "");
-       setArtist(queue[0].Artist || "");
-       setAlbum(queue[0].Album || "");
-     });
+    MpdClient.getQueue().then((queue) => {
+      setQueueNum(queue.length);
+      if (!queue.length) return;
+      if ("file" in queue[0]) { // youtube video
+        setTitle("YouTube Video");
+        setArtist("Artist --");
+        setAlbum("Album --");
+        return
+      }
+      setTitle(queue[0].Title || "");
+      setArtist(queue[0].Artist || "");
+      setAlbum(queue[0].Album || "");
+    });
   }
 
   function secondsToTimeString(seconds: number): string {
